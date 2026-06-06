@@ -8,49 +8,144 @@ TOKEN = os.getenv("TOKEN")
 # ================== ادکلن‌ها ==================
 perfumes = {
     "blue by ahmad": """🌿 Blue by Ahmad
+
 🏷 برند: Ahmed Al Maghribi
 👤 جنسیت: زنانه، مردانه
 ❄️ طبع: خنک
 🌸 رایحه: چوبی، مرکباتی، تازه
+
+🔹 نت آغازی:
+گریپ فروت، فلفل صورتی، نعناع، لیمو
+
+🔸 نت میانی:
+زنجبیل، جوز هندی، یاس
+
+🔻 نت پایه:
+بخور، سدر، چوب صندل، پاچولی، مشک سفید
 """,
 
     "whitetiger": """🐯 White Tiger
+
 🏷 برند: Ahmed Al Maghribi
 👤 جنسیت: زنانه، مردانه
 ❄️ طبع: خنک و معتدل
+
+🔹 نت اولیه:
+مرکبات، مشک
+
+🔸 نت میانی:
+خاکی، تازه، گلی
+
+🔻 نت پایه:
+خزه، خاکی
 """,
 
     "aghra": """🌹 Aghra
+
 🏷 برند: احمد المغربی
 👤 جنسیت: زنانه، مردانه
 🌡 طبع: معتدل
+
+🌸 گروه بویایی:
+شرقی، چوبی، گلی
+
+🔹 نت‌ها:
+ترکیب گل‌ها، چوب‌ها و روایح شرقی
 """,
 
     "oclock": """⏰ Oclock
+
 🏷 برند: احمد المغربی
 👤 جنسیت: زنانه، مردانه
-🌿 رایحه: سیب، اسطوخودوس، چرم، وانیل، مشک
+🌡 طبع: معتدل
+
+🌿 رایحه:
+فوژه، معطر
+
+🔹 نت آغازی:
+سیب، اسطوخودوس
+
+🔸 نت میانی:
+چرم، وانیل
+
+🔻 نت پایه:
+مشک، چوب صندل
 """,
 
     "peach peach": """🍑 Peach Peach
+
+🏷 برند: احمد المغربی
 👩 جنسیت: زنانه
 🌡 طبع: ملایم
+
+🍬 رایحه:
+شیرین، میوه‌ای
+
+🔹 نت آغازی:
+هلو، پرتقال خونی
+
+🔸 نت میانی:
+پاچولی
+
+🔻 نت پایه:
+عسل، کنیاک
 """,
 
     "royal wood": """🌳 Royal Wood
+
+🏷 برند: احمد المغربی
+👤 جنسیت: زنانه، مردانه
 🔥 طبع: گرم
+
+🌿 رایحه:
+چوبی، ادویه‌ای
+
+🔹 نت‌ها:
+عود، رز، چوب صندل، کهربا
 """,
 
     "frost ice": """❄️ Frost Ice
+
+🏷 برند: احمد المغربی
+👤 جنسیت: زنانه، مردانه
 ❄️ طبع: خنک
+
+🌊 رایحه:
+دریایی، میوه‌ای، گلی
+
+🔹 نت آغازی:
+هندوانه، گریپ فروت
+
+🔸 نت میانی:
+یاس، رزماری
+
+🔻 نت پایه:
+روایح گلی
 """,
 
     "fusion intense": """🔥 Fusion Intense
+
+👤 جنسیت: زنانه، مردانه
 🔥 طبع: گرم
+
+🧴 رایحه:
+چرمی، معطر
+
+🔹 نت‌ها:
+اسطوخودوس، چرم، وانیل، دانه تونکا
 """,
 
     "leader": """👑 Leader
+
+🏷 برند: Ahmed Al Maghribi
+👤 جنسیت: زنانه، مردانه
 🔥 طبع: گرم
+
+🌿 رایحه:
+چرمی، زعفرانی
+
+🔹 نت‌ها:
+گل‌ها، یاس، چرم، کهربا
 """
 }
 
@@ -76,13 +171,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     text = update.message.text.strip()
 
-    # فقط ادکلن‌ها بدون حساسیت به بزرگ/کوچیک
-    normalized_text = text.lower()
-
+    normalized = text.lower()
     perfumes_normalized = {k.lower(): v for k, v in perfumes.items()}
-    cosmetics_normalized = {k.lower(): v for k, v in cosmetics.items()}
 
-    # منوی اصلی
     if text == "ادکلن":
         buttons = [[name] for name in perfumes.keys()]
         keyboard = ReplyKeyboardMarkup(buttons, resize_keyboard=True)
@@ -101,14 +192,12 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
             reply_markup=keyboard
         )
 
-    # ادکلن‌ها (case-insensitive)
-    elif normalized_text in perfumes_normalized:
+    elif normalized in perfumes_normalized:
         await update.message.reply_text(
-            perfumes_normalized[normalized_text],
+            perfumes_normalized[normalized],
             reply_markup=main_menu
         )
 
-    # آرایشی
     elif text in cosmetics:
         await update.message.reply_text(
             cosmetics[text],
@@ -117,7 +206,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     else:
         await update.message.reply_text(
-            "❌ متوجه نشدم",
+            "❌ متوجه نشدم\nلطفاً از دکمه‌ها استفاده کن.",
             reply_markup=main_menu
         )
 
