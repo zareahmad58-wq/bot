@@ -2,8 +2,8 @@ import os
 from telegram import Update, ReplyKeyboardMarkup
 from telegram.ext import Application, CommandHandler, MessageHandler, filters, ContextTypes
 
-# ================== TOKEN از Environment ==================
-TOKEN = os.getenv("8651339116:AAFjp_pxQ6HfjuP2y1jEbIJ6LzBDCMZxkJ4")
+# ================== TOKEN از Environment ==============
+TOKEN = os.getenv("TOKEN")
 
 # ================== ادکلن‌ها ==================
 perfumes = {
